@@ -1,0 +1,69 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+build
+.idea
+.vscode
+# dependencies
+**/node_modules
+.pnpm-store/
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+**/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+sui.log.*
+.history
+node_modules
+.env
+.git
+# frontend/*/.env
+
+# IntelliJ project files
+*.iml
+*.ipr
+*.iws
+.idea
+
+*.gitkeep
+
+# eclipse project file
+.settings/
+.classpath
+.project
+
+# NetBeans specific
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# OS
+.DS_Store
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+
+PROPOSAL.md
