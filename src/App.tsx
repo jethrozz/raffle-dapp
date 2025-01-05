@@ -4,6 +4,7 @@ import { Box, Container, Flex, Heading } from "@radix-ui/themes";
 import { useState } from "react";
 import { Counter } from "./Counter";
 import { CreateCounter } from "./CreateCounter";
+import { Head } from "./components/header/head";
 
 function App() {
   const currentAccount = useCurrentAccount();
@@ -23,10 +24,7 @@ function App() {
           borderBottom: "1px solid var(--gray-a2)",
         }}
       >
-        <Box>
-          <Heading>dApp Starter Template</Heading>
-        </Box>
-
+        <Head />
         <Box>
           <ConnectButton />
         </Box>

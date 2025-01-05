@@ -1,0 +1,25 @@
+:root {
+    --s-14: calc(1rem + (1.125rem - 1rem) * ((100vw - 320px) / (1200 - 320)));
+  }
+  
+.head_logo {
+    display: flex;
+    grid-column-start: 1;
+    grid-column-end: 11;
+}
+.head_capybara {
+    font-size: clamp(2rem, var(--s-14), 3.125rem);
+    line-height: 1.25;
+    transform: translate3d(10%, -100%, 0);
+    transition: transform 0.64s var(--page-in-handle);
+}
+.head_raffle{
+    font-size: clamp(2rem, var(--s-14), 3.125rem);
+    line-height: 1.25;
+    transform: translate3d(-60px, 0px, 0px); 
+}
+.head-text {
+    font-size: clamp(2rem, var(--s-14), 3.125rem);
+    line-height: 1.25;
+    color: #901090;
+}
