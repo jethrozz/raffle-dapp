@@ -8,11 +8,14 @@ use sui::vec_map;
 use sui::vec_map::VecMap;
 use std::option::{Self};
 
+
 public struct Raffle has key , store{
     id: UID,
     activityCount: u64, //活动数量
     activities: vector<Activity>, //已经产生的活动
     activitiesMap : VecMap<UID, Activity>, //活动id
+    endedActivities : vector<Activity>, //已经开奖活动
+    activitiesInProgress : vector<Activity>, //进行中的活动
     userActivitesMap :  VecMap<address, vector<Activity>>, //记录用户自己创建的活动
 }
 
@@ -27,7 +30,9 @@ public struct Activity has key , store, copy{
     currentTicketCount: u64, //当前奖券数量
     password: String, //活动密码，非开放活动需要输入密码
     isOpen: bool, //是否开放
+    status: u8, //活动状态 1:进行中 2:已开奖
     tickets: vector<Ticket>, //已经产生的抽奖券
+    joinTimes: vector<u64>, //参与者时间 用于中奖者的计算
 }
 
 /**
@@ -67,7 +72,9 @@ public fun create_activity(raffle : &mut Raffle, name: String, endTime : u64, wi
         currentTicketCount: 0,
         password,
         isOpen,
+        status: 1,
         tickets: vector::empty<Ticket>(),
+        joinTimes: vector::empty<u64>(),
     };
     raffle.activitiesMap.insert(activity.id, activity);
     //存入
@@ -147,6 +154,33 @@ public fun get_activity_by_id(raffle : &Raffle, id: UID) : Option<&Activity>{
     }else {
         return option::none();
     };
+}
+
+/**
+抽奖
+外部预言机定时调用，每分钟开奖一次
+*/
+public fun draw(raffle : &mut Raffle, cl : &Clock, ctx: &mut TxContext){
+    //获取当前时间
+   let now : u64 = clock::timestamp_ms(cl);
+
+    for (activity in raffle.activitiesInProgress){
+        if (now >= activity.endTime){
+            //进行开奖逻辑
+            //如果参与人数小于要抽的中奖人数，则该用户中奖
+            if (activity.winnerCount < activity.tickets.len()){
+                //中奖
+                let ticket = activity.tickets[0];
+                ticket.win = true;
+                activity.tickets[0] = ticket;
+            }else {
+                //未中奖
+                let ticket = activity.tickets[0];
+                ticket.win = false;
+                activity.tickets[0] = ticket;
+            }
+        }
+    }
 }
 
 }
